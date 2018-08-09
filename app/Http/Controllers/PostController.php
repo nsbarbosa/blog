@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'titulo' => 'required|max:20|not_regex:teste*',
+            'slug' => 'unique',
+            
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +23,9 @@ class PostController extends Controller
     public function index()
     {
         //
-        $posts = post::orderBy('created_at', 'desc')->paginate(2);
-        return view('post.index',['posts' => $posts]);
+        //$post = post::orderBy('created_at', 'desc')->paginate(2);
+        //return view('welcome',['posts' => $posts]);
+        return view('welcome');
     }
 
     /**
@@ -27,7 +36,7 @@ class PostController extends Controller
     public function create()
     {
         //
-        return view('post.create');
+        return view('criar');
     }
 
     /**
@@ -43,6 +52,7 @@ class PostController extends Controller
         $post->titulo        = $request->titulo;
         $post->descricao = $request->descricao;
         $post->id_autor = auth()->user()->id;
+        $post->slug = $this->slug($request->titulo);
         $post->save();
         return redirect()->route('post.index')->with('message', 'Post criado!');
     }
@@ -102,5 +112,11 @@ class PostController extends Controller
         $post = post::findOrFail($id);
         $post->delete();
         return redirect()->route('post.index')->with('alert-success','Produto deletado!');
+    }
+
+    function slug($titulo){
+        $caracter = ['Ä','Å','Á','Â','À','Ã','ä','á','â','à','ã','É','Ê','Ë','È','é','ê','ë','è','Í','Î','Ï','Ì','í','î','ï','ì','Ö','Ó','Ô','Ò','Õ','ö','ó','ô','ò','õ','Ü','Ú','Û','ü','ú','û','ù','Ç','ç'];
+        $novoCaracter = ['A','A','A','A','A','A','a','a','a','a','a','E','E','E','E','e','e','e','e','I','I','I','I','i','i','i','i','O','O','O','O','O','o','o','o','o','o','U','U','U','u','u','u','u','C','c'];
+        return str_replace($caracter,$novoCaracter,mb_strtolower($titulo));
     }
 }

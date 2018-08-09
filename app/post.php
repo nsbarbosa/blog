@@ -7,9 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class post extends Model
 {
     //
-    protected table = 'post';
     protected $fillable = [ 
-        slug, titulo, descricao,id
+        slug, titulo, descricao,id,
     ];
 
     public function Autor(){
