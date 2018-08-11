@@ -8,7 +8,7 @@ class post extends Model
 {
     //
     protected $fillable = [ 
-        slug, titulo, descricao,id,
+        'slug', 'titulo', 'descricao','id',
     ];
 
     public function Autor(){
