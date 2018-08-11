@@ -63,8 +63,13 @@ class PostController extends Controller
         $post->descricao = $request->descricao;
         $post->id_autor = auth()->user()->id;
         $post->slug = $this->slug($request->titulo);
-        $post->save();
-        return redirect()->route('post.index')->with('message', 'Post criado!');
+        $criar = $post->save();
+        if($criar){
+            return redirect()->route('post.index')->with('message', 'Post criado!');
+        }
+        else{
+            return redirect()->route('post.index')->with('message', 'Erro ao criar post!');
+        }
     }
 
     /**
@@ -106,8 +111,14 @@ class PostController extends Controller
         $post = post::findOrFail($id);
         $post->titulo        = $request->titulo;
         $post->descricao = $request->descricao;
-        $post->save();
-        return redirect()->route('post.index')->with('message', 'Post editado!');
+        $editar = $post->save();
+        if($editar){
+            return redirect()->route('post.index')->with('message', 'Post editado!');
+        }
+        else{
+            return redirect()->route('post.index')->with('message', 'Erro ao editar post!');
+        }
+        
     }
 
     /**
@@ -120,8 +131,14 @@ class PostController extends Controller
     {
         //
         $post = post::findOrFail($id);
-        $post->delete();
+        $deletar = $post->delete();
         return redirect()->route('post.index')->with('alert-success','Produto deletado!');
+        if($deletar){
+            return redirect()->route('post.index')->with('message', 'Post excluído!');
+        }
+        else{
+            return redirect()->route('post.index')->with('message', 'Erro ao excluir post!');
+        }
     }
 
     function slug($titulo){
