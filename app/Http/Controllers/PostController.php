@@ -35,7 +35,9 @@ class PostController extends Controller
         //
         //$post = post::orderBy('created_at', 'desc')->paginate(2);
         //return view('welcome',['posts' => $posts]);
-        return view('welcome');
+        $post = post::where('id_autor',	
+        auth()->user()->id)->get();
+        return view('index',['post' => $post]);
     }
 
     /**
