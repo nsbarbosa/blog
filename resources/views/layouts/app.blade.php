@@ -35,7 +35,7 @@
                 </div>
 
                 @else
-
+                
                 <div class="navbar-item">
                     <a href="{{ route('logout') }}"
                     onclick="event.preventDefault();
