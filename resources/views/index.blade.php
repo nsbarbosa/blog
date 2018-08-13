@@ -16,7 +16,7 @@
                             <div class="media-content has-text-centered">
                                 <p class="title article-title">{{$value->titulo}}</p>
                                 <p class="subtitle is-6 article-subtitle">
-                                    <a href="#">{{ $value->id_autor }}</a> on February 17, 2018
+                                    <p>{{ $value->name }}</p> Criado em : {{$value->created_at}} Editado em: {{$value->updated_at}}
                                 </p>
                             </div>
                         </div>
@@ -27,9 +27,18 @@
                         </div>
                     </div>
                 </div>
+                <a class="button is-warning" href="{{route('post.edit',$value->slug)}}">Editar</a>
+                {!! Form::open(['method' => 'DELETE','route' => ['post.destroy', $value->slug]]) !!}
+                {!! Form::submit('Excluir', ['class' => 'button is-danger']) !!}
+                {!! Form::close() !!}
         </div>
+        
         @endforeach
-    </section>
+        <div>                           
+            {!! $post->links() !!}
+        </div>
+    </section>   
 </div>
+
 @endsection
 

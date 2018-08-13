@@ -33,9 +33,15 @@
                 <div class="navbar-item">
                     <a href="{{ route('register') }}">Cadastro</a>
                 </div>
+                               
 
                 @else
-                
+                <div class="navbar-item">
+                <a class="button is-link" href="{{ route('post.index') }}">Meus posts</a>
+                </div>
+                <div class="navbar-item">
+                <a class="button is-link" href="{{ route('post.create') }}">Adicionar post</a>
+                </div>
                 <div class="navbar-item">
                     <a href="{{ route('logout') }}"
                     onclick="event.preventDefault();
