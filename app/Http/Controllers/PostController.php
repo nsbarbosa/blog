@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\post;
 use Illuminate\Http\Request;
+use View;
+use App\User;
+use DB;
+use App\Http\Requests\postRequest;
 
 class PostController extends Controller
 {
@@ -14,17 +18,10 @@ class PostController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth',['except'=> ['index','show']]);
+        $this->middleware('auth',['except' => ['show']]);
     }
 
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'titulo' => 'required|max:20|not_regex:teste*',
-            'slug' => 'unique',
-            
-        ]);
-    }
+
     /**
      * Display a listing of the resource.
      *
@@ -33,11 +30,8 @@ class PostController extends Controller
     public function index()
     {
         //
-        //$post = post::orderBy('created_at', 'desc')->paginate(2);
-        //return view('welcome',['posts' => $posts]);
-        $post = post::where('id_autor',	
-        auth()->user()->id)->get();
-        return view('index',['post' => $post]);
+        $post = DB::table('posts')->join('Users','users.id','=','posts.id_autor')->select('posts.*','Users.name')->where('id_autor',auth()->user()->id)->paginate(2);
+        return view('index',compact('post'));
     }
 
     /**
@@ -57,21 +51,30 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(postRequest $request)
     {
         //
-        $post = new post;
-        $post->titulo        = $request->titulo;
-        $post->descricao = $request->descricao;
-        $post->id_autor = auth()->user()->id;
-        $post->slug = $this->slug($request->titulo);
-        $criar = $post->save();
-        if($criar){
-            return redirect()->route('post.index')->with('message', 'Post criado!');
+        //'titulo' => 'required|max:20| not_regex:teste*',
+        //$regras = array('test' => array('max:20', 'not_regex:teste*'));
+        $palavra = str_is('teste',$request->titulo);
+        if($palavra){
+            return redirect()->route('post.index')->with('error', 'O titulo não pode conter a palavra teste!');
         }
         else{
-            return redirect()->route('post.index')->with('message', 'Erro ao criar post!');
+            
+            $post = new post;
+            $post->titulo        = $request->titulo;
+            $post->descricao = $request->descricao;
+            $post->id_autor = auth()->user()->id;
+            $post->slug = str_slug($request->titulo, '-');
+            $criar = $post->save();
+               
+            return redirect()->route('post.index')->with('message', 'Post criado!');
         }
+        
+
+       
+       
     }
 
     /**
@@ -80,11 +83,11 @@ class PostController extends Controller
      * @param  \App\post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(post $post)
+    public function show($slug)
     {
         //
-        $post = post::all();
-        return view('post.index',compact('post'));
+        $post = DB::table('posts')->join('Users','users.id','=','posts.id_autor')->select('posts.*','Users.name')->where('slug','=',$slug)->first();
+        return view('show',compact('post'));
     }
 
     /**
@@ -93,11 +96,12 @@ class PostController extends Controller
      * @param  \App\post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(post $post)
+    public function edit($slug)
     {
         //
-        $post = post::findOrFail($id);
-        return view('post.edit',compact('post','id'));
+        $post = post::where('slug','=',$slug)->first();
+        
+        return view('criar',compact('post'));
     }
 
     /**
@@ -109,17 +113,9 @@ class PostController extends Controller
      */
     public function update(Request $request, post $post)
     {
-        //
-        $post = post::findOrFail($id);
-        $post->titulo        = $request->titulo;
-        $post->descricao = $request->descricao;
-        $editar = $post->save();
-        if($editar){
-            return redirect()->route('post.index')->with('message', 'Post editado!');
-        }
-        else{
-            return redirect()->route('post.index')->with('message', 'Erro ao editar post!');
-        }
+        $post->update($request->all());
+        return  redirect()->route('post.index')->with('message','post editado!');
+        
         
     }
 
@@ -129,23 +125,13 @@ class PostController extends Controller
      * @param  \App\post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(post $post)
+    public function destroy($slug)
     {
         //
-        $post = post::findOrFail($id);
+        $post = post::where('slug','=',$slug)->first();
         $deletar = $post->delete();
-        return redirect()->route('post.index')->with('alert-success','Produto deletado!');
-        if($deletar){
-            return redirect()->route('post.index')->with('message', 'Post excluído!');
-        }
-        else{
-            return redirect()->route('post.index')->with('message', 'Erro ao excluir post!');
-        }
+        return redirect()->route('post.index')->with('message','Post deletado!');
+     
     }
-
-    function slug($titulo){
-        $caracter = ['Ä','Å','Á','Â','À','Ã','ä','á','â','à','ã','É','Ê','Ë','È','é','ê','ë','è','Í','Î','Ï','Ì','í','î','ï','ì','Ö','Ó','Ô','Ò','Õ','ö','ó','ô','ò','õ','Ü','Ú','Û','ü','ú','û','ù','Ç','ç'];
-        $novoCaracter = ['A','A','A','A','A','A','a','a','a','a','a','E','E','E','E','e','e','e','e','I','I','I','I','i','i','i','i','O','O','O','O','O','o','o','o','o','o','U','U','U','u','u','u','u','C','c'];
-        return str_replace($caracter,$novoCaracter,mb_strtolower($titulo));
-    }
+   
 }
