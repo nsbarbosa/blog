@@ -3,29 +3,31 @@
 @section('content')
 <div class="container">
 
-    <form method="POST" action="{{route('post.store')}}">
-        {{ csrf_field() }}
+    @if(isset($errors) && count ($errors) > 0)
+        @foreach($errors->all() as $erro)
+            <p>{{ $erro }}</p>
+        @endforeach
+    @endif
 
-        <div class="field">
-            <label class="label">Título</label>
-            <div class="control">
-                <input name="titulo" class="input" type="text" placeholder="Digite o titulo" value="{{ old('titulo') }}" required>
-            </div>
-        </div>
+@if(isset($post))
+ {{Form::model($post, array('route' => array('post.update', $post->slug), 'method' => 'put'))}}
+ @else
+ {{ Form::open(['route' => 'post.store']) }}
+ @endif
 
-        <div class="field">
-            <label class="label">Descricao</label>
-            <div class="control">
-                <input name="descricao" class="textarea" type="text" placeholder="Digite o conteudo" required>
-            </div>
-        </div>
+<div class="form-group">
+    {{ Form::label('titulo', 'Título') }}
+    {{ Form::text('titulo', null, ['class' => 'input']) }}
+</div>
 
-        <div class="field">
-        <button type="submit" class="button is-success">
-            Enviar
-        </button>
-        </div>
-    </form>
+<div class="form-group">
+    {{ Form::label('descricao', 'Descrição') }}
+    {{ Form::text('descricao', null, ['class' => 'textarea']) }}
+</div>
+
+{{ Form::submit('Enviar', ['class' => 'button is-success']) }}
+
+{{ Form::close() }}
 
 </div>
 @endsection
