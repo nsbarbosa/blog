@@ -15,4 +15,14 @@ class post extends Model
 
         return $this->belongsTo('User','id_autor');
   }
+
+  /**
+ * Get the route key for the model.
+ *
+ * @return string
+ */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }
