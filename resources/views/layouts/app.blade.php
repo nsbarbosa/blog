@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}" class="has-background-primary">
 
 <head>
     <meta charset="utf-8">
@@ -12,15 +12,19 @@
     <title>Blog</title>
 
     <!-- Styles -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css" />
+
+    <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
+
 </head>
 
-<body>
+<body class="has-background-primary">
     <div id="app">
-        <nav class="navbar" role="navigation" aria-label="main navigation">
+        <nav class="navbar is-black" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a class="navbar-item" href="{{ url('/') }}">
-                    Home
+                    <h3>Home</h3>
                 </a>
             </div>
 
@@ -30,23 +34,23 @@
                 @if (Auth::guest())
 
                 <div class="navbar-item">
-                    <a href="{{ route('login') }}">Login</a>
+                    <a class="button is-large is-info" href="{{ route('login') }}">Login</a>
                 </div>
 
                 <div class="navbar-item">
-                    <a href="{{ route('register') }}">Cadastro</a>
+                    <a class="button is-large is-warning" href="{{ route('register') }}">Cadastro</a>
                 </div>
 
 
                 @else
                 <div class="navbar-item">
-                    <a class="button is-link" href="{{ route('post.index') }}">Meus posts</a>
+                    <a class="button is-large is-link" href="{{ route('post.index') }}">Meus posts</a>
                 </div>
                 <div class="navbar-item">
-                    <a class="button is-link" href="{{ route('post.create') }}">Adicionar post</a>
+                    <a class="button is-large is-warning is-link" href="{{ route('post.create') }}">Adicionar post</a>
                 </div>
                 <div class="navbar-item">
-                    <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                    <a class="button is-large is-danger" href="{{ route('logout') }}" onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
                         Sair
                     </a>
