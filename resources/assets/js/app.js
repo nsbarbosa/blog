@@ -6,6 +6,10 @@
  */
 
 require('./bootstrap');
+window.Vue = require('vue');
+
+import InstantSearch from 'vue-instantsearch';
+Vue.use(InstantSearch);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -14,6 +18,7 @@ require('./bootstrap');
  */
 
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('pesquisa', require('./components/Pesquisa.vue'));
 
 const app = new Vue({
     el: '#app'
