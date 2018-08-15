@@ -56,21 +56,22 @@ class PostController extends Controller
         //
         //'titulo' => 'required|max:20| not_regex:teste*',
         //$regras = array('test' => array('max:20', 'not_regex:teste*'));
-        $palavra = str_is('teste',$request->titulo);
-        if($palavra){
-            return redirect()->route('post.index')->with('message', 'O titulo não pode conter a palavra teste!');
-        }
-        else{
+        $texto = $request->titulo;
+        $palavra = str_contains($texto, 'teste');
+            if($palavra){
+                return redirect()->route('post.index')->with('message', 'O titulo não pode conter a palavra teste!');
+            }
+            else{
             
-            $post = new post;
-            $post->titulo        = $request->titulo;
-            $post->descricao = $request->descricao;
-            $post->id_autor = auth()->user()->id;
-            $post->slug = str_slug($request->titulo, '-');
-            $criar = $post->save();
-               
-            return redirect()->route('post.index')->with('message', 'Post criado!');
-        }
+                $post = new post;
+                $post->titulo        = $request->titulo;
+                $post->descricao = $request->descricao;
+                $post->id_autor = auth()->user()->id;
+                $post->slug = str_slug($request->titulo, '-');
+                $criar = $post->save();
+                
+                    return redirect()->route('post.index')->with('message', 'Post criado!');
+            }
         
 
        
@@ -113,14 +114,16 @@ class PostController extends Controller
      */
     public function update(Request $request, post $post)
     {   
-        $palavra = str_is('teste',$request->titulo);
-        if($palavra){
-            return redirect()->route('post.edit',$post->slug)->with('message', 'O titulo não pode conter a palavra teste!');
-        }
-        else{
-            $post->update($request->all());
-                return  redirect()->route('post.index')->with('message','post editado!');
-        }
+        //$palavra = str_is('teste',$request->titulo);
+        $texto = $request->titulo;
+        $palavra = str_contains($texto, 'teste');
+            if($palavra){
+                return redirect()->route('post.edit',$post->slug)->with('message', 'O titulo não pode conter a palavra teste!');
+            }
+            else{
+                $post->update($request->all());
+                    return  redirect()->route('post.index')->with('message','post editado!!');
+                }
         
         
         
