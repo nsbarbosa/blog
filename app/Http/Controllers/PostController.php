@@ -51,7 +51,7 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
         //
         //'titulo' => 'required|max:20| not_regex:teste*',
@@ -112,7 +112,7 @@ class PostController extends Controller
      * @param  \App\post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, post $post)
+    public function update(PostRequest $request, post $post)
     {   
         //$palavra = str_is('teste',$request->titulo);
         $texto = $request->titulo;
