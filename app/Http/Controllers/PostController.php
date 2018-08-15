@@ -51,14 +51,14 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(postRequest $request)
+    public function store(Request $request)
     {
         //
         //'titulo' => 'required|max:20| not_regex:teste*',
         //$regras = array('test' => array('max:20', 'not_regex:teste*'));
         $palavra = str_is('teste',$request->titulo);
         if($palavra){
-            return redirect()->route('post.index')->with('error', 'O titulo não pode conter a palavra teste!');
+            return redirect()->route('post.index')->with('message', 'O titulo não pode conter a palavra teste!');
         }
         else{
             
@@ -112,9 +112,16 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, post $post)
-    {
-        $post->update($request->all());
-        return  redirect()->route('post.index')->with('message','post editado!');
+    {   
+        $palavra = str_is('teste',$request->titulo);
+        if($palavra){
+            return redirect()->route('post.edit',$post->slug)->with('message', 'O titulo não pode conter a palavra teste!');
+        }
+        else{
+            $post->update($request->all());
+                return  redirect()->route('post.index')->with('message','post editado!');
+        }
+        
         
         
     }
