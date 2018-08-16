@@ -4,7 +4,7 @@
 <div class="container">
 
     <form method="POST" action="{{ route('register') }}">
-        {!! csrf_field() !!}
+        {{ csrf_field() }}
         <div class="field">
             <label class="label">Nome</label>
             <div class="control">
