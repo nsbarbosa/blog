@@ -8,6 +8,7 @@
         "php": ">=5.6.4",
         "algolia/algoliasearch-client-php": "^1.27",
         "laravel/framework": "5.4.*",
+        "laravel/passport": "v1",
         "laravel/scout": "^5.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "5.4.0"
@@ -35,17 +36,12 @@
         ],
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize",
-            "php artisan clear-compiled",
-            "php artisan optimize",
-            "chmod -R 777 public/"
+            "php artisan optimize"
         ],
-
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize"
         ]
-        
     },
     "config": {
         "preferred-install": "dist",
