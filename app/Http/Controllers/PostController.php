@@ -31,7 +31,8 @@ class PostController extends Controller
     {
         //
         $post = DB::table('posts')->join('Users','users.id','=','posts.id_autor')->select('posts.*','Users.name')->where('id_autor',auth()->user()->id)->paginate(2);
-        return view('index',compact('post'));
+        return view('index',compact('post'));        
+        
     }
 
     /**
@@ -57,7 +58,8 @@ class PostController extends Controller
         //'titulo' => 'required|max:20| not_regex:teste*',
         //$regras = array('test' => array('max:20', 'not_regex:teste*'));
         $texto = $request->titulo;
-        $palavra = str_contains($texto, 'teste');
+        $minuscula = strtolower($texto);
+        $palavra = str_contains($minuscula, 'teste');
             if($palavra){
                 return redirect()->route('post.index')->with('message', 'O titulo não pode conter a palavra teste!');
             }
@@ -114,9 +116,9 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, post $post)
     {   
-        //$palavra = str_is('teste',$request->titulo);
         $texto = $request->titulo;
-        $palavra = str_contains($texto, 'teste');
+        $minuscula = strtolower($texto);
+        $palavra = str_contains($minuscula, 'teste');
             if($palavra){
                 return redirect()->route('post.edit',$post->slug)->with('message', 'O titulo não pode conter a palavra teste!');
             }
