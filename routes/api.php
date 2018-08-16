@@ -13,9 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', function (Request $request) {
-    return view('apiposts');
-});
+
 Route::get('/', function (Request $request) {
     return view('apilogin');
 });
