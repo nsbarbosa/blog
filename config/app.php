@@ -103,7 +103,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY', '12345678901234567890123456789012'),
+    'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
 
@@ -178,6 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
 
     ],
 
