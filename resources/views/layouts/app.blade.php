@@ -69,6 +69,34 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}">
     </script>
+    <script type='text/javascript'> 
+        window.__cb = window.__cb || {}; 
+        window.__cb.id = "608179c7389aee0d861fa5d0"; 
+        (
+            function() { 
+                var be = document.createElement('script'); 
+                    be.type = 'text/javascript'; 
+                    be.async = true; 
+                    be.src = 'https://cdn.duotalk.com.br/widget/plugin.js/';
+                var s = document.getElementsByTagName('script')[0]; 
+                    s.parentNode.insertBefore(be, s);
+            }
+        );
+        (
+            function(){
+                var heig = window.innerHeight;
+                var wid = window.innerWidth;
+                if(wid < 600){
+                    var bubble = document.getElementsByClassName('talk-bubble');
+                    
+                    bubble.style.display = 'none';
+                    console.log(bubble[0]);
+                }
+                console.log(heig, wid);
+            }
+        )
+        (); 
+    </script>
 </body>
 
 </html>
