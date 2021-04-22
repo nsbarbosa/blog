@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-    <div class="columns">
+    <!--div class="columns">
         <div class="column">
             @if (session('message'))
             <div class="alert alert-success">
@@ -46,7 +46,7 @@
                 {!! $post->links() !!}
             </div>
         </div>
-    </div>
+    </div-->
 </div>
 
 @endsection
