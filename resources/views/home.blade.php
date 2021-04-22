@@ -1,6 +1,6 @@
 @extends('layouts.app') @section('content')
 <div class="container">
-    <div class="columns">
+    <!--div class="columns">
         <div class="column">
             <h3 class="has-text-centered has-text-white is-uppercase">Posts</h3>
 
@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div-->
 </div>
 
 
